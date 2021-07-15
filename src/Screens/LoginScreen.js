@@ -12,18 +12,21 @@ const LoginScreen = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
 
+    const [show, setShow] = useState(false);
+
     const onSubmit = (e) => {
         e.preventDefault()
 
         if (email === "" || password === "") {
             setMessage('Check Empty Field')
+            setShow(true)
         }
     }
 
     return (
         <FormContainer>
             <h1>Log in</h1>
-            {message && <Message variant={'danger'}>{message}</Message>}
+            {message && show && <Message setShow={setShow} variant={'danger'}>{message}</Message>}
             <Form onSubmit={onSubmit}>
                 <Form.Group controlId='email'>
                     <Form.Label>Email Address</Form.Label>

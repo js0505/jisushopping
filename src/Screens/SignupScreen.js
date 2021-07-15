@@ -12,12 +12,15 @@ const SignupScreen = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
 
+    const [show, setShow] = useState(false);
+
     const onSubmit = (e) => {
         e.preventDefault()
         setLoading(true)
 
         if (username === "" || email === "" || password === "") {
             setMessage('Check Empty Field')
+            setShow(true)
         }
         
         if (password !== confirmPassword) {
@@ -25,12 +28,13 @@ const SignupScreen = () => {
         }
 
         setLoading(false)
+
     }
 
     return (
         <FormContainer>
             <h1>Sign up</h1>
-            {message && <Message variant={'danger'}>{message}</Message>}
+            {message && show && <Message variant={'danger'} setShow={setShow}>{message}</Message>}
             <Form onSubmit={onSubmit}>
                 <Form.Group controlId='name'>
                     <Form.Label>User Name</Form.Label>
