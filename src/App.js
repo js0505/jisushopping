@@ -2,11 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import { Container } from 'react-bootstrap'
-import Footer from './Components/Footer';
-import Header from './Components/Header';
-import HomeScreen from './Screens/HomeScreen';
-import ProductScreen from './Screens/ProductScreen';
-import CartScreen from './Screens/CartScreen';
+import { Header, Footer } from './Components'
+import { HomeScreen, ProductScreen, CartScreen } from './Screens'
+// import HomeScreen from './Screens/HomeScreen';
+// import ProductScreen from './Screens/ProductScreen';
+// import CartScreen from './Screens/CartScreen';
 
 
 const App = () => {
