@@ -10,10 +10,6 @@ import {
   LoginScreen,
   SignupScreen
 } from './Screens'
-// import HomeScreen from './Screens/HomeScreen';
-// import ProductScreen from './Screens/ProductScreen';
-// import CartScreen from './Screens/CartScreen';
-
 
 const App = () => {
   return (
