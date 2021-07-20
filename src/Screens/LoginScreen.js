@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { FormContainer, Message, Loading } from '../Components'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios';
 
 
-const LoginScreen = ({history}) => {
+const LoginScreen = () => {
+    
+    const history = useHistory();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -40,8 +42,8 @@ const LoginScreen = ({history}) => {
         
         //다른 방법
         const { data } = await axios.post('http://localhost:5000/api/users/login', loginUser)
-        console.log(data)
-        localStorage.setItem('token', data.token)
+
+        localStorage.setItem('token', JSON.stringify(data.token))
         history.push('/profile')
         setLoading(false)
     }

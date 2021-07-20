@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { FormContainer, Loading, Message } from '../Components'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios';
 
-const SignupScreen = ({history}) => {
+const SignupScreen = () => {
+
+    const history = useHistory();
 
     const [username, setUserName] = useState('');
     const [email, setEmail] = useState('');
