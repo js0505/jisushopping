@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { FormContainer, Message, Loading } from '../Components'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 
 const LoginScreen = () => {
     
-    const history = useHistory();
+    // const history = useHistory();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,20 +30,31 @@ const LoginScreen = () => {
             email,
             password
         }
-        // router.post('/login', authUser) 
-        // await axios
-        //     .post('http://localhost:5000/api/users/login', loginUser)
-        //     .then(res => {
-        //         setLoading(false)
-        //     })
-        //     .catch(e => console.log(e))
-        
-        
-        //다른 방법
-        const { data } = await axios.post('http://localhost:5000/api/users/login', loginUser)
 
-        localStorage.setItem('token', data.token)
-        history.push('/profile')
+        // router.post('/login', authUser) 
+        // const { data } = await axios.post('http://localhost:5000/api/users/login', loginUser)
+
+        await axios
+            .post('http://localhost:5000/api/users/login', loginUser)
+            .then(res => {
+                localStorage.setItem('token', res.data.token)
+                localStorage.setItem('name', res.data.name)
+                window.location.replace("/profile")
+            })
+            .catch(e => {
+                console.log(e.response.data)
+                setMessage(e.response.data.message)
+                setShow(true)
+                setLoading(false)
+            })
+
+
+        // history.push('/profile')
+        // localStorage.setItem('token', data.token)
+        // localStorage.setItem('name', data.name)
+        // LoginScreen 에서 header로 상태를 바로 넘겨주지 못해서 새로고침 해야 로그인 상태확인이 가능해서
+        // 상태관리 전까지는 아래 코드로 대체.
+        // window.location.replace("/profile")
         setLoading(false)
     }
 

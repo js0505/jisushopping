@@ -10,24 +10,25 @@ const ProfileScreen = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const getProfile = async () => {
+    
+
+    useEffect(() => {
+        const getProfile = async () => {
         const token = localStorage.getItem('token');
         
         const config = {
             Authorization: 'Bearer '+ token
         }
-        console.log(config)
+
 
         await axios
             .get('http://localhost:5000/api/users/profile', {}, config)
             .then(res => console.log(res))
             .catch(e => console.log(e))
 
-    }
-
-    useEffect(() => {
+        }
         getProfile()
-    }, [getProfile])
+    }, [])
 
     const submitHandler = async (e) => {
         e.preventDefault();

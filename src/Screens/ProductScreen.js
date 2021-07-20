@@ -20,12 +20,12 @@ const ProductScreen = () => {
                 setLoading(false)
             })
             .catch(e => console.log(e))
-    }, [])
+    }, [id])
 
 
     useEffect(() => {
         getProduct()
-    },[product])
+    },[product, getProduct])
 
     return (
         <>

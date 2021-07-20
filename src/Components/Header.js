@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useHistory } from 'react-router-dom';
@@ -7,15 +7,29 @@ import { useHistory } from 'react-router-dom';
 
 
 const Header = () => {
-
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-
+    
     const history = useHistory();
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    
+    const username = localStorage.getItem('name');
+    
+    const loginCheck = () => {
+            const token = localStorage.key('token');
+            if (token) {
+            setIsLoggedIn(true)
+            }
+    }
+    
     const onLogoutHandler = (e) => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('token')
+        localStorage.removeItem('name')
+        setIsLoggedIn(false)
         history.push('/')
     }
+
+    useEffect(() => {
+        loginCheck()
+    }, [])
 
     return (
         <header>
@@ -37,7 +51,7 @@ const Header = () => {
                             {/* 로그인 상태에 따라서 메뉴변경 */}
                             {isLoggedIn
                                 ? (
-                                    <NavDropdown title={"jisu"} id='username'>
+                                    <NavDropdown title={username} id='username'>
                                         <LinkContainer to='/profile'>
                                             <NavDropdown.Item>Profile</NavDropdown.Item>
                                         </LinkContainer>
