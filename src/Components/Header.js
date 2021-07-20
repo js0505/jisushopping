@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -9,8 +10,11 @@ const Header = () => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-    const onClickHandler = (e) => {
-        e.preventDefalut()
+    const history = useHistory();
+
+    const onLogoutHandler = (e) => {
+        localStorage.removeItem('token');
+        history.push('/')
     }
 
     return (
@@ -37,7 +41,7 @@ const Header = () => {
                                         <LinkContainer to='/profile'>
                                             <NavDropdown.Item>Profile</NavDropdown.Item>
                                         </LinkContainer>
-                                        <NavDropdown.Item onClick={onClickHandler}>Logout</NavDropdown.Item>
+                                        <NavDropdown.Item onClick={onLogoutHandler}>Logout</NavDropdown.Item>
                                     </NavDropdown> 
                                 ) : (
                                     <LinkContainer to = '/login'>
