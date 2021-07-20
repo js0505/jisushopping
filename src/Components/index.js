@@ -4,6 +4,7 @@ import Product from './Product'
 import Rating from './Rating'
 import FormContainer from './FormContainer'
 import Message from './Message'
+import Loading from './Loading'
 
 export {
     Header,
@@ -11,5 +12,6 @@ export {
     Product,
     Rating,
     FormContainer,
-    Message
+    Message,
+    Loading
 }

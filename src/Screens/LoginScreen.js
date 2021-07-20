@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
-import { FormContainer, Message } from '../Components'
+import { FormContainer, Message, Loading } from '../Components'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 
-const LoginScreen = () => {
+const LoginScreen = ({history}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
 
     const [show, setShow] = useState(false);
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
 
         if (email === "" || password === "") {
             setMessage('Check Empty Field')
             setShow(true)
         }
+        setLoading(true)
 
         //서버에 보내야 할 데이터 정리
         const loginUser = {
@@ -29,15 +30,26 @@ const LoginScreen = () => {
         }
 
         // router.post('/login', authUser) 
-        axios
-            .post('http://localhost:5000/api/users/login', loginUser)
-            .then(res => console.log(res.data))
-            .catch(e => console.log(e))
+        // await axios
+        //     .post('http://localhost:5000/api/users/login', loginUser)
+        //     .then(res => {
+        //         setLoading(false)
+        //     })
+        //     .catch(e => console.log(e))
+        
+        
+        //다른 방법
+        const { data } = await axios.post('http://localhost:5000/api/users/login', loginUser)
+        console.log(data)
+        localStorage.setItem('token', data.token)
+        history.push('/profile')
+        setLoading(false)
     }
 
     return (
         <FormContainer>
             <h1>Log in</h1>
+            {loading && <Loading />}
             {message && show && <Message setShow={setShow} variant={'danger'}>{message}</Message>}
             <Form onSubmit={onSubmit}>
                 <Form.Group controlId='email'>

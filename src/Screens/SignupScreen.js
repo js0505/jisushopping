@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
-import { FormContainer, Message } from '../Components'
+import { FormContainer, Loading, Message } from '../Components'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 
-const SignupScreen = () => {
+const SignupScreen = ({history}) => {
 
     const [username, setUserName] = useState('');
     const [email, setEmail] = useState('');
@@ -29,6 +29,7 @@ const SignupScreen = () => {
             setShow(true)
         }
 
+        setLoading(true)
         //서버로 보낼 데이터 정리
         const newUser = {
             name: username,
@@ -41,8 +42,16 @@ const SignupScreen = () => {
         //     .post(registerUser)
         axios
             .post('http://localhost:5000/api/users', newUser)
-            .then(res => console.log(res.data))
-            .catch(e => console.log(e))
+            .then(res => {
+                setLoading(false)
+                history.push('/login')
+            })
+            .catch(e => {
+                console.log(e.response.data)
+                setMessage(e.response.data.message)
+                setShow(true)
+                setLoading(false)
+            })
 
 
     }
@@ -50,6 +59,7 @@ const SignupScreen = () => {
     return (
         <FormContainer>
             <h1>Sign up</h1>
+            {loading && <Loading />}
             {message && show && <Message variant={'danger'} setShow={setShow}>{message}</Message>}
             <Form onSubmit={onSubmit}>
                 <Form.Group controlId='name'>
@@ -79,7 +89,7 @@ const SignupScreen = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Form.Group controlId='password'>
+                <Form.Group controlId='confirmPassword'>
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control
                         type='password'
