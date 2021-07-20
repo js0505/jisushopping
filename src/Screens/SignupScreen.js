@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { FormContainer, Message } from '../Components'
 import { Link } from 'react-router-dom'
+import axios from 'axios';
 
 const SignupScreen = () => {
 
@@ -24,10 +25,25 @@ const SignupScreen = () => {
         }
         
         if (password !== confirmPassword) {
-            alert('Password Mismatch!')
+            setMessage('Password Mismatch!')
+            setShow(true)
         }
 
-        setLoading(false)
+        //서버로 보낼 데이터 정리
+        const newUser = {
+            name: username,
+            email,
+            password
+        }
+
+
+        // router.route('/')
+        //     .post(registerUser)
+        axios
+            .post('http://localhost:5000/api/users', newUser)
+            .then(res => console.log(res.data))
+            .catch(e => console.log(e))
+
 
     }
 
@@ -37,19 +53,19 @@ const SignupScreen = () => {
             {message && show && <Message variant={'danger'} setShow={setShow}>{message}</Message>}
             <Form onSubmit={onSubmit}>
                 <Form.Group controlId='name'>
-                    <Form.Label>User Name</Form.Label>
+                    <Form.Label>Username</Form.Label>
                     <Form.Control
                         type='text'
-                        placeholder='Enter UserName'
+                        placeholder='Enter Username'
                         value={username}
                         onChange={(e) => setUserName(e.target.value)}
                     />
                 </Form.Group>
                 <Form.Group controlId='email'>
-                    <Form.Label>User email</Form.Label>
+                    <Form.Label>Email</Form.Label>
                     <Form.Control
                         type='email'
-                        placeholder='Enter UserName'
+                        placeholder='Enter email'
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />

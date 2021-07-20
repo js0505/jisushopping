@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { FormContainer, Message } from '../Components'
 import { Link } from 'react-router-dom'
-
+import axios from 'axios';
 
 
 const LoginScreen = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
 
     const [show, setShow] = useState(false);
@@ -21,6 +21,18 @@ const LoginScreen = () => {
             setMessage('Check Empty Field')
             setShow(true)
         }
+
+        //서버에 보내야 할 데이터 정리
+        const loginUser = {
+            email,
+            password
+        }
+
+        // router.post('/login', authUser) 
+        axios
+            .post('http://localhost:5000/api/users/login', loginUser)
+            .then(res => console.log(res.data))
+            .catch(e => console.log(e))
     }
 
     return (
