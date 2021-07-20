@@ -30,7 +30,6 @@ const LoginScreen = () => {
             email,
             password
         }
-
         // router.post('/login', authUser) 
         // await axios
         //     .post('http://localhost:5000/api/users/login', loginUser)
@@ -43,7 +42,7 @@ const LoginScreen = () => {
         //다른 방법
         const { data } = await axios.post('http://localhost:5000/api/users/login', loginUser)
 
-        localStorage.setItem('token', JSON.stringify(data.token))
+        localStorage.setItem('token', data.token)
         history.push('/profile')
         setLoading(false)
     }

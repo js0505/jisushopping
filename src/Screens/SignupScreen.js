@@ -39,7 +39,6 @@ const SignupScreen = () => {
             password
         }
 
-
         // router.route('/')
         //     .post(registerUser)
         axios
@@ -54,8 +53,6 @@ const SignupScreen = () => {
                 setShow(true)
                 setLoading(false)
             })
-
-
     }
 
     return (

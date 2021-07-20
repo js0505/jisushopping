@@ -1,34 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { Rating } from '../Components'
+import { Rating, Loading } from '../Components'
 import axios from 'axios';
 
 const ProductScreen = () => {
 
     const [product, setProduct] = useState({});
-
+    const [loading, setLoading] = useState(true);
+    
     const { id } = useParams();
 
-    const getProduct = async () => {
+    const getProduct = useCallback(async () => {
         await axios
             .get(`http://localhost:5000/api/products/${id}`)
-            .then(res => setProduct(res.data))
+            .then(res => {
+                setProduct(res.data)
+                setLoading(false)
+            })
             .catch(e => console.log(e))
-    }
+    }, [])
 
-    console.log(product)
 
     useEffect(() => {
         getProduct()
-    },[])
+    },[product])
 
     return (
         <>
             <Link to='/' className='btn btn-light my-3'>
                 Go Back
             </Link>
+            {loading && <Loading />}
             <Row>
                 <Col md={6}>
                     <Image src={product.image} alt={product.name} fluid />
