@@ -6,6 +6,8 @@ import FormContainer from './FormContainer'
 import Message from './Message'
 import Loading from './Loading'
 
+import DeleteProduct from './DeleteProduct'
+
 export {
     Header,
     Footer,
@@ -13,5 +15,6 @@ export {
     Rating,
     FormContainer,
     Message,
-    Loading
+    Loading,
+    DeleteProduct
 }

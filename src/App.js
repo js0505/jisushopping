@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import { Container } from 'react-bootstrap'
-import { Header, Footer } from './Components'
+import { Header, Footer, DeleteProduct } from './Components'
 import {
   HomeScreen,
   ProductScreen,
@@ -10,7 +10,8 @@ import {
   LoginScreen,
   SignupScreen,
   ProfileScreen,
-  UploadProductScreen
+  ProductUpdateScreen,
+  ProductCreateScreen
 } from './Screens'
 
 const App = () => {
@@ -25,7 +26,9 @@ const App = () => {
           <Route path='/login' component={LoginScreen} exact />
           <Route path='/signup' component={SignupScreen} exact />
           <Route path='/profile' component={ProfileScreen} exact />
-          <Route path='/upload' component={UploadProductScreen} exact />
+          <Route path='/productUpdate/:id' component={ProductUpdateScreen} exact />
+          <Route path='/productDelete/:id' component={DeleteProduct} exact />
+          <Route path='/productCreate' component={ProductCreateScreen} exact /> 
         </Container>
       </main>
       <Footer />

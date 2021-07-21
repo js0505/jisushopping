@@ -1,19 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams, Link, useHistory } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import { Rating, Loading } from '../Components'
 import axios from 'axios';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const ProductScreen = () => {
 
     const [product, setProduct] = useState({});
     const [loading, setLoading] = useState(true);
+
+    const [isAdmin, setIsAdmin] = useState(false);
+    const admin = localStorage.getItem('name');
+    
+
+    const history = useHistory();
+
+    const checkDeleteProduct = () => {
+        const question = window.confirm('Delete Product?')
+        if (question) {
+            history.push(`/productDelete/${id}`)
+        }
+    }
     
     const { id } = useParams();
 
     
     useEffect(() => {
+        if (admin === 'jisuAdmin') {
+            setIsAdmin(true)
+        } else {
+            setIsAdmin(false)
+        }
+        
         const getProduct = async () => {
         await axios
             .get(`http://localhost:5000/api/products/${id}`)
@@ -83,6 +102,30 @@ const ProductScreen = () => {
                                 >
                                     Add To Cart
                                 </Button>
+                                {isAdmin
+                                    ? (
+                                        <>
+                                            <LinkContainer to={`/productUpdate/${id}`}>
+                                                <Button
+                                                    className='btn-block'
+                                                    type='button'
+                                                    >
+                                                    Update
+                                                </Button>
+                                            </LinkContainer>
+                                            <Button
+                                                className='btn-block'
+                                                    type='button'
+                                                    onClick={checkDeleteProduct}
+                                                >
+                                                Delete
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )
+                                }
+                                
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>

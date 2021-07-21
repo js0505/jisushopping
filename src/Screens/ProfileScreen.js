@@ -16,6 +16,7 @@ const ProfileScreen = () => {
     const [show, setShow] = useState(false);
     
     const token = localStorage.getItem('token')
+
     const headers = {
             'Authorization': `Bearer ${token}`,
     }
