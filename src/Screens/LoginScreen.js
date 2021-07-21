@@ -39,6 +39,7 @@ const LoginScreen = () => {
             .then(res => {
                 localStorage.setItem('token', res.data.token)
                 localStorage.setItem('name', res.data.name)
+
                 window.location.replace("/profile")
             })
             .catch(e => {
