@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -12,7 +12,9 @@ const ProductScreen = () => {
     
     const { id } = useParams();
 
-    const getProduct = useCallback(async () => {
+    
+    useEffect(() => {
+        const getProduct = async () => {
         await axios
             .get(`http://localhost:5000/api/products/${id}`)
             .then(res => {
@@ -20,12 +22,9 @@ const ProductScreen = () => {
                 setLoading(false)
             })
             .catch(e => console.log(e))
-    }, [id])
-
-
-    useEffect(() => {
+        }
         getProduct()
-    },[product, getProduct])
+    },[id])
 
     return (
         <>

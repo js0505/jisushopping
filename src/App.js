@@ -9,7 +9,8 @@ import {
   CartScreen,
   LoginScreen,
   SignupScreen,
-  ProfileScreen
+  ProfileScreen,
+  UploadProductScreen
 } from './Screens'
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
           <Route path='/login' component={LoginScreen} exact />
           <Route path='/signup' component={SignupScreen} exact />
           <Route path='/profile' component={ProfileScreen} exact />
+          <Route path='/upload' component={UploadProductScreen} exact />
         </Container>
       </main>
       <Footer />
