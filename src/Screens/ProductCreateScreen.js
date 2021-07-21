@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Form, Col, Row } from 'react-bootstrap'
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Loading } from '../Components'
 
 const ProductCreateScreen = () => {

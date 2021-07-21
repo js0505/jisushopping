@@ -15,14 +15,14 @@ const ProfileScreen = () => {
     const [message, setMessage] = useState(null);
     const [show, setShow] = useState(false);
     
-    const token = localStorage.getItem('token')
-
-    const headers = {
-            'Authorization': `Bearer ${token}`,
-    }
+    
 
     useEffect(() => {
-        const getProfile = async () => {    
+        const getProfile = async () => {
+            const token = localStorage.getItem('token')
+            const headers = {
+                    'Authorization': `Bearer ${token}`,
+            }
             await axios
                 .get('http://localhost:5000/api/users/profile', {headers})
                 .then(res => {
@@ -57,6 +57,10 @@ const ProfileScreen = () => {
             name,
             email,
             password
+        }
+        const token = localStorage.getItem('token')
+        const headers = {
+            'Authorization': `Bearer ${token}`,
         }
 
         axios

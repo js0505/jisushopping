@@ -43,7 +43,7 @@ const ProductScreen = () => {
             .catch(e => console.log(e))
         }
         getProduct()
-    },[id])
+    },[admin, id])
 
     return (
         <>

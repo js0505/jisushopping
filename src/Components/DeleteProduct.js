@@ -25,7 +25,7 @@ const DeleteProduct = () => {
         }
 
         deleteProduct()
-    }, [])
+    }, [history, id])
     
 
     return (
