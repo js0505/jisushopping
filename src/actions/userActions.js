@@ -12,13 +12,16 @@ export const login = (email, password) => async (dispatch) => {
 		dispatch({
 			type: USER_LOGIN_REQUEST,
 		});
-        //로그인 데이터
-        const { data } = await axios.get("/api/users/login", { email, password });
-        //성공시
-        dispatch({
-            type: USER_LOGIN_SUCCESS,
-            payload: data
-        })
+		//로그인 데이터
+		const { data } = await axios.get("http://localhost:5000/api/users/login", {
+			email,
+			password,
+		});
+		//성공시
+		dispatch({
+			type: USER_LOGIN_SUCCESS,
+			payload: data,
+		});
 	} catch (e) {
 		dispatch({
 			//로그인 실패시
