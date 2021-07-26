@@ -13,6 +13,7 @@ const Header = () => {
     
     const username = localStorage.getItem('name');
     
+    //토큰 값이 로컬스토리지에 있으면 로그인 상태로 변경.
     const loginCheck = () => {
             const token = localStorage.key('token');
             if (token) {
@@ -20,6 +21,7 @@ const Header = () => {
             }
     }
     
+    //로그아웃 누르면 로컬스토리지 값 삭제하고 루트로 push
     const onLogoutHandler = (e) => {
         localStorage.removeItem('token')
         localStorage.removeItem('name')

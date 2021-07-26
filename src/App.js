@@ -26,6 +26,7 @@ const App = () => {
           <Route path='/login' component={LoginScreen} exact />
           <Route path='/signup' component={SignupScreen} exact />
           <Route path='/profile' component={ProfileScreen} exact />
+          
           <Route path='/productUpdate/:id' component={ProductUpdateScreen} exact />
           <Route path='/productDelete/:id' component={DeleteProduct} exact />
           <Route path='/productCreate' component={ProductCreateScreen} exact /> 
