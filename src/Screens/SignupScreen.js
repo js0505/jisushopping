@@ -3,6 +3,8 @@ import { Button, Form, Row, Col } from "react-bootstrap";
 import { FormContainer, Loading, Message } from "../Components";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../actions/userActions";
 
 const SignupScreen = () => {
 	const history = useHistory();
@@ -11,54 +13,36 @@ const SignupScreen = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
-	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState(null);
 
-	const [show, setShow] = useState(false);
+	const dispatch = useDispatch();
+	const userRegister = useSelector((state) => state.userRegister);
+	const { loading, error } = userRegister;
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		setLoading(true);
 
 		if (username === "" || email === "" || password === "") {
 			setMessage("Check Empty Field");
-			setShow(true);
 		}
 
 		if (password !== confirmPassword) {
 			setMessage("Password Mismatch!");
-			setShow(true);
 		}
 
-		setLoading(true);
+		// setLoading(true);
 		//서버로 보낼 데이터 정리
-		const newUser = {
-			name: username,
-			email,
-			password,
-		};
 
-		// router.route('/')
-		//     .post(registerUser)
-		axios
-			.post("http://localhost:5000/api/users", newUser)
-			.then((res) => {
-				setLoading(false);
-				history.push("/login");
-			})
-			.catch((e) => {
-				console.log(e.response.data);
-				setMessage(e.response.data.message);
-				setShow(true);
-				setLoading(false);
-			});
+		dispatch(register(username, email, password));
+		history.push("/login");
 	};
 
 	return (
 		<FormContainer>
 			<h1>Sign up</h1>
 			{loading && <Loading />}
-			{message && show && <Message variant={"danger"}>{message}</Message>}
+			{message && <Message variant={"danger"}>{message}</Message>}
+			{error && <Message variant={"danger"}>{error}</Message>}
 			<Form onSubmit={onSubmit}>
 				<Form.Group controlId="name">
 					<Form.Label>Username</Form.Label>
