@@ -14,7 +14,7 @@ const LoginScreen = () => {
 
 	const dispatch = useDispatch();
 	const userLogin = useSelector((state) => state.userLogin);
-	const { loading, userInfo, error } = userLogin;
+	const { loading, error } = userLogin;
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -23,11 +23,6 @@ const LoginScreen = () => {
 			setMessage("Check Empty Field");
 		}
 
-		//서버에 보내야 할 데이터 정리
-		const loginUser = {
-			email,
-			password,
-		};
 		dispatch(login(email, password));
 	};
 

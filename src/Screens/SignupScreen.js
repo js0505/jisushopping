@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { FormContainer, Loading, Message } from "../Components";
 import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../actions/userActions";
 

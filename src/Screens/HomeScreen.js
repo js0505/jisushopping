@@ -1,43 +1,37 @@
-import React, {useEffect, useState} from 'react';
-import { Row, Col } from 'react-bootstrap'
-import { Product, Loading } from '../Components'
-import axios from 'axios';
-
+import React, { useEffect } from "react";
+import { Row, Col } from "react-bootstrap";
+import { Product, Loading, Message } from "../Components";
+import { useDispatch, useSelector } from "react-redux";
+import { listProducts } from "../actions/productActions";
 
 const HomeScreen = () => {
+	const dispatch = useDispatch();
+	const productList = useSelector((state) => state.listProducts);
+	const { loading, products, error } = productList;
+	console.log(products);
 
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+	useEffect(() => {
+		dispatch(listProducts());
+	}, [dispatch]);
 
-    const getProducts = async () => {
-
-        await axios
-            .get('http://localhost:5000/api/products')
-            .then(res => {
-                setProducts(res.data.products)
-                setLoading(false)
-            })
-            .catch(e => console.log(e))
-    }
-
-    useEffect(() => {
-        getProducts()
-    }, [])
-
-
-    return (
-        <>
-            <h1>Lastest Products</h1>
-            {loading && <Loading />}
-            <Row>
-                {products.map(item => (
-                    <Col key={item._id} sm={12} md={6} lg={4} xl={3}>
-                        <Product product={item} />
-                    </Col>
-                ))}
-            </Row>
-        </>
-    );
+	return (
+		<>
+			<h1>Lastest Products</h1>
+			{loading && <Loading />}
+			{error && <Message variant={"danger"}>{error}</Message>}
+			{products.length === 0 ? (
+				<h2>등록된 제품이 없습니다</h2>
+			) : (
+				<Row>
+					{products.map((item) => (
+						<Col key={item._id} sm={12} md={6} lg={4} xl={3}>
+							<Product product={item} />
+						</Col>
+					))}
+				</Row>
+			)}
+		</>
+	);
 };
 
 export default HomeScreen;

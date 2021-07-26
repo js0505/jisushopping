@@ -40,9 +40,9 @@ export const login = (email, password) => async (dispatch) => {
 			type: USER_LOGIN_FAIL,
 			//받는 데이터
 			payload:
-				e.response && e.response.data.response
+				e.response && e.response.data.message
 					? e.response.data.message
-					: e.message,
+					: e.message
 		});
 	}
 };
