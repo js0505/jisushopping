@@ -7,6 +7,7 @@ import {
 	USER_REGISTER_FAIL,
 } from "../constants/userConstants";
 
+//reducer 함수
 export const userLoginReducer = (state = {}, action) => {
 	switch (action.type) {
 		case USER_LOGIN_REQUEST:
