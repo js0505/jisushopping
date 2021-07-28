@@ -15,34 +15,25 @@ export const login = (email, password) => async (dispatch) => {
 		dispatch({
 			type: USER_LOGIN_REQUEST,
 		});
-		const config = {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
-		//로그인 데이터
-		const { data } = await axios.post(
-			"/api/users/login",
-			{
-				email,
-				password,
-			},
-			config
-		);
-		//성공시
+
+		const { data } = await axios.post("/api/users/login", {
+			email,
+			password,
+		});
+
 		dispatch({
 			type: USER_LOGIN_SUCCESS,
 			payload: data,
 		});
+		localStorage.setItem("token", data.token);
+		localStorage.setItem("name", data.name);
 	} catch (e) {
 		dispatch({
-			//로그인 실패시
 			type: USER_LOGIN_FAIL,
-			//받는 데이터
 			payload:
 				e.response && e.response.data.message
 					? e.response.data.message
-					: e.message
+					: e.message,
 		});
 	}
 };
@@ -64,7 +55,6 @@ export const register = (name, email, password) => async (dispatch) => {
 	} catch (e) {
 		dispatch({
 			type: USER_REGISTER_FAIL,
-			//받는 데이터
 			payload:
 				e.response && e.response.data.response
 					? e.response.data.message

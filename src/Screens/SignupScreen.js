@@ -29,9 +29,6 @@ const SignupScreen = () => {
 			setMessage("Password Mismatch!");
 		}
 
-		// setLoading(true);
-		//서버로 보낼 데이터 정리
-
 		dispatch(register(username, email, password));
 		history.push("/login");
 	};
