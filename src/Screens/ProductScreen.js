@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
-import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
+import {
+	Row,
+	Col,
+	Image,
+	ListGroup,
+	Card,
+	Button,
+	Form,
+} from "react-bootstrap";
 import { Rating, Loading, Message } from "../Components";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { detailProduct } from "../actions/productActions";
 
 const ProductScreen = () => {
+	const [qty, setQty] = useState(0);
 	const [isAdmin, setIsAdmin] = useState(false);
 	const admin = localStorage.getItem("name");
 	const history = useHistory();
@@ -21,6 +30,10 @@ const ProductScreen = () => {
 	const productDetail = useSelector((state) => state.detailProduct);
 	const { loading, error, product } = productDetail;
 	const { id } = useParams();
+
+	const addToCartHandler = () => {
+		history.push(`/cart/${id}?qty=${qty}`);
+	};
 
 	useEffect(() => {
 		if (admin === "jisuAdmin") {
@@ -78,8 +91,29 @@ const ProductScreen = () => {
 									</Col>
 								</Row>
 							</ListGroup.Item>
+							{product.countInStock > 0 && (
+								<ListGroup.Item>
+									<Row>
+										<Col>Qty</Col>
+										<Col>
+											<Form.Control
+												as="select"
+												value={qty}
+												onChange={(e) => setQty(e.target.value)}
+											>
+												{[...Array(product.countInStock).keys()].map((x) => (
+													<option key={x + 1} value={x + 1}>
+														{x + 1}
+													</option>
+												))}
+											</Form.Control>
+										</Col>
+									</Row>
+								</ListGroup.Item>
+							)}
 							<ListGroup.Item>
 								<Button
+									onClick={addToCartHandler}
 									className="btn-block"
 									type="button"
 									disabled={product.countInStock === 0}

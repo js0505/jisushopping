@@ -6,14 +6,16 @@ import SignupScreen from "./SignupScreen";
 import ProfileScreen from "./ProfileScreen";
 import ProductUpdateScreen from "./ProductUpdateScreen";
 import ProductCreateScreen from "./ProductCreateScreen";
+import ShipScreen from "./ShipScreen";
 
 export {
-    HomeScreen,
-    ProductScreen,
-    CartScreen,
-    LoginScreen,
-    SignupScreen,
-    ProfileScreen,
-    ProductUpdateScreen,
-    ProductCreateScreen
-}
+	HomeScreen,
+	ProductScreen,
+	CartScreen,
+	LoginScreen,
+	SignupScreen,
+	ProfileScreen,
+	ProductUpdateScreen,
+	ProductCreateScreen,
+	ShipScreen,
+};

@@ -47,6 +47,7 @@ export const logout = () => (dispatch) => {
 		type: USER_LOGOUT,
 	});
 	localStorage.removeItem("userInfo");
+	document.location.href = "/login";
 };
 
 export const register = (name, email, password) => async (dispatch) => {
