@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation, useParams } from "react-router-dom";
-import { addToCart } from "../actions/cartActions";
+import { addToCart, removeToCart } from "../actions/cartActions";
 import { Message } from "../Components";
 
 const CartScreen = () => {
@@ -27,12 +27,14 @@ const CartScreen = () => {
 		if (id) {
 			dispatch(addToCart(id, qty));
 		}
-	});
+	}, [dispatch, id, qty]);
 
-	const removeFromCartHandler = (id) => {};
+	const removeFromCartHandler = (id) => {
+		dispatch(removeToCart(id));
+	};
 
 	const checkOutHandler = () => {
-		history.push("/login?redirect=shipping");
+		history.push("/shipping");
 	};
 
 	return (
@@ -76,7 +78,7 @@ const CartScreen = () => {
 										<Button
 											type="button"
 											varlant="light"
-											onClick={() => alert("test")}
+											onClick={() => removeFromCartHandler(item.product)}
 										>
 											<i className="fas fa-trash" />
 										</Button>
