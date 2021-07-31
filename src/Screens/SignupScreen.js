@@ -23,10 +23,12 @@ const SignupScreen = () => {
 
 		if (username === "" || email === "" || password === "") {
 			setMessage("Check Empty Field");
+			return;
 		}
 
 		if (password !== confirmPassword) {
 			setMessage("Password Mismatch!");
+			return;
 		}
 
 		dispatch(register(username, email, password));

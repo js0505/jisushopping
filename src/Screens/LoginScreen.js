@@ -23,6 +23,7 @@ const LoginScreen = () => {
 
 		if (email === "" || password === "") {
 			setMessage("Check Empty Field");
+			return;
 		}
 
 		await dispatch(login(email, password));
