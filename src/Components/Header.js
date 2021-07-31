@@ -1,31 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { useHistory } from "react-router-dom";
+import { logout } from "../actions/userActions";
 
 const Header = () => {
 	const history = useHistory();
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-	const username = "none";
+	const dispatch = useDispatch();
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
+
+	// const username = "none";
 
 	//토큰 값이 로컬스토리지에 있으면 로그인 상태로 변경.
-	const loginCheck = () => {
-		const token = localStorage.key("token");
-		if (token) {
-			setIsLoggedIn(true);
-		}
-	};
+	// const loginCheck = () => {
+	// 	const token = localStorage.key("token");
+	// 	if (token) {
+	// 		setIsLoggedIn(true);
+	// 	}
+	// };
 
 	//로그아웃 누르면 로컬스토리지 값 삭제하고 루트로 push
 	const onLogoutHandler = (e) => {
-		localStorage.removeItem("userInfo");
-		setIsLoggedIn(false);
-		history.push("/");
+		dispatch(logout());
 	};
 
 	useEffect(() => {
-		loginCheck();
+		// loginCheck();
 	}, []);
 
 	return (
@@ -46,8 +49,8 @@ const Header = () => {
 								</Nav.Link>
 							</LinkContainer>
 							{/* 로그인 상태에 따라서 메뉴변경 */}
-							{isLoggedIn ? (
-								<NavDropdown title={username} id="username">
+							{userInfo ? (
+								<NavDropdown title={userInfo.name} id="username">
 									<LinkContainer to="/profile">
 										<NavDropdown.Item>Profile</NavDropdown.Item>
 									</LinkContainer>

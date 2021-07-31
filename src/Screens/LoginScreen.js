@@ -19,7 +19,7 @@ const LoginScreen = () => {
 
 	const location = useLocation();
 	const redirect = location.search ? location.search.split("=")[1] : "/profile";
-	const onSubmit = async (e) => {
+	const onSubmit = (e) => {
 		e.preventDefault();
 
 		if (email === "" || password === "") {
@@ -27,7 +27,7 @@ const LoginScreen = () => {
 			return;
 		}
 
-		await dispatch(login(email, password));
+		dispatch(login(email, password));
 	};
 
 	useEffect(() => {
