@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { FormContainer, Message, Loading } from "../Components";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { login } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,9 +15,10 @@ const LoginScreen = () => {
 
 	const dispatch = useDispatch();
 	const userLogin = useSelector((state) => state.userLogin);
+	const { loading, error, userInfo } = userLogin;
 
-	const { loading, error } = userLogin;
-
+	const location = useLocation();
+	const redirect = location.search ? location.search.split("=")[1] : "/profile";
 	const onSubmit = async (e) => {
 		e.preventDefault();
 
@@ -27,8 +28,13 @@ const LoginScreen = () => {
 		}
 
 		await dispatch(login(email, password));
-		history.push("/profile");
 	};
+
+	useEffect(() => {
+		if (userInfo) {
+			history.push(redirect);
+		}
+	}, [userInfo, history, redirect]);
 
 	return (
 		<FormContainer>

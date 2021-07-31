@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { FormContainer, Loading, Message } from "../Components";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../actions/userActions";
 
@@ -16,7 +16,10 @@ const SignupScreen = () => {
 
 	const dispatch = useDispatch();
 	const userRegister = useSelector((state) => state.userRegister);
-	const { loading, error } = userRegister;
+	const { loading, error, success } = userRegister;
+
+	const location = useLocation();
+	const redirect = location.search ? location.search.split("=")[1] : "/login";
 
 	const onSubmit = (e) => {
 		e.preventDefault();
@@ -32,8 +35,13 @@ const SignupScreen = () => {
 		}
 
 		dispatch(register(username, email, password));
-		history.push("/login");
 	};
+
+	useEffect(() => {
+		if (success) {
+			history.push(redirect);
+		}
+	}, [history, success, redirect]);
 
 	return (
 		<FormContainer>

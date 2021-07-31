@@ -7,7 +7,7 @@ const Header = () => {
 	const history = useHistory();
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-	const username = localStorage.getItem("name");
+	const username = "none";
 
 	//토큰 값이 로컬스토리지에 있으면 로그인 상태로 변경.
 	const loginCheck = () => {
@@ -19,8 +19,7 @@ const Header = () => {
 
 	//로그아웃 누르면 로컬스토리지 값 삭제하고 루트로 push
 	const onLogoutHandler = (e) => {
-		localStorage.removeItem("token");
-		localStorage.removeItem("name");
+		localStorage.removeItem("userInfo");
 		setIsLoggedIn(false);
 		history.push("/");
 	};

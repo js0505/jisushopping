@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
-import { Rating, Loading } from "../Components";
-import axios from "axios";
+import { Rating, Loading, Message } from "../Components";
 import { LinkContainer } from "react-router-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { detailProduct } from "../actions/productActions";
 
 const ProductScreen = () => {
-	const [product, setProduct] = useState({});
-	const [loading, setLoading] = useState(true);
-
 	const [isAdmin, setIsAdmin] = useState(false);
 	const admin = localStorage.getItem("name");
-
 	const history = useHistory();
 
 	const checkDeleteProduct = () => {
@@ -20,7 +17,9 @@ const ProductScreen = () => {
 			history.push(`/productDelete/${id}`);
 		}
 	};
-
+	const dispatch = useDispatch();
+	const productDetail = useSelector((state) => state.detailProduct);
+	const { loading, error, product } = productDetail;
 	const { id } = useParams();
 
 	useEffect(() => {
@@ -30,17 +29,8 @@ const ProductScreen = () => {
 			setIsAdmin(false);
 		}
 
-		const getProduct = async () => {
-			await axios
-				.get(`http://localhost:5000/api/products/${id}`)
-				.then((res) => {
-					setProduct(res.data);
-					setLoading(false);
-				})
-				.catch((e) => console.log(e));
-		};
-		getProduct();
-	}, [admin, id]);
+		dispatch(detailProduct(id));
+	}, [admin, dispatch, id]);
 
 	return (
 		<>
@@ -48,6 +38,7 @@ const ProductScreen = () => {
 				Go Back
 			</Link>
 			{loading && <Loading />}
+			{error && <Message variant={"danger"}>{error}</Message>}
 			<Row>
 				<Col md={6}>
 					<Image src={product.image} alt={product.name} fluid />

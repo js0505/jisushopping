@@ -1,9 +1,16 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
-import { listProductReducer } from "./reducers/productReducers";
-
+import {
+	updateProfileReducer,
+	userLoginReducer,
+	userProfileReducer,
+	userRegisterReducer,
+} from "./reducers/userReducers";
+import {
+	detailProductReducer,
+	listProductReducer,
+} from "./reducers/productReducers";
 
 //여러 reducer를 결합하는 메서드.
 //useSelector 에서 접근하는 부분.
@@ -11,9 +18,10 @@ const reducer = combineReducers({
 	userLogin: userLoginReducer,
 	userRegister: userRegisterReducer,
 	listProducts: listProductReducer,
+	detailProduct: detailProductReducer,
+	getUserProfile: userProfileReducer,
+	updateUserProfile: updateProfileReducer,
 });
-
-
 
 const initialState = {};
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import { Loading, Message } from "../Components";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { profile, updateProfile } from "../actions/userActions";
 
 const ProfileScreen = () => {
 	const history = useHistory();
@@ -12,74 +13,58 @@ const ProfileScreen = () => {
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 
-	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState(null);
-	const [show, setShow] = useState(false);
+
+	const dispatch = useDispatch();
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
+
+	const getUserProfile = useSelector((state) => state.getUserProfile);
+	const { loading, error, userProfile } = getUserProfile;
+
+
+	const profileUpdate = useSelector((state) => state.updateUserProfile);
+	const { updateUserData } = profileUpdate;
 
 	useEffect(() => {
-		const getProfile = async () => {
-			const token = localStorage.getItem("token");
-			const headers = {
-				Authorization: `Bearer ${token}`,
-			};
-			await axios
-				.get("http://localhost:5000/api/users/profile", { headers })
-				.then((res) => {
-					setName(res.data.name);
-					setEmail(res.data.email);
-				})
-				.catch((e) => console.log(e));
-		};
-		getProfile();
-	}, []);
+		// dispatch(profile("profile"));
+		// setName(userProfile.name);
+		// setEmail(userProfile.email);
+		if (!userInfo) {
+			history.push("/login");
+		} else {
+			if (!userProfile.name) {
+				dispatch(profile());
+			} else {
+				setName(userProfile.name);
+				setEmail(userProfile.email);
+			}
+		}
+	}, [dispatch, userProfile, userInfo, history]);
+
+	// console.log(userProfile);
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
-		setLoading(true);
 
 		if (name === "" || email === "" || password === "") {
 			setMessage("Check Empty Field");
-			setShow(true);
-			setLoading(false);
 			return;
 		}
 
 		if (password !== confirmPassword) {
 			setMessage("Password Mismatch!");
-			setShow(true);
-			setLoading(false);
 			return;
 		}
 
-		const updateUser = {
-			name,
-			email,
-			password,
-		};
-		const token = localStorage.getItem("token");
-		const headers = {
-			Authorization: `Bearer ${token}`,
-		};
+		// dispatch(updateProfile(name, email, password));
 
-		axios
-			.put("http://localhost:5000/api/users/profile", updateUser, { headers })
-			.then((res) => {
-				localStorage.setItem("name", res.data.name);
+		// setName(updateUserData.name);
+		// setEmail(updateUserData.email);
+		// setPassword("");
+		// setConfirmPassword("");
 
-				// form value 변경
-				setName(res.data.name);
-				setEmail(res.data.email);
-				setPassword("");
-				setConfirmPassword("");
-				// form value 변경 끝
-
-				setMessage("Update Success!");
-				setShow(true);
-				setLoading(false);
-				history.push("/profile");
-				// window.location.replace("/profile");
-			})
-			.catch((e) => console.log(e));
+		// setMessage("Update Success!");
 	};
 
 	return (
@@ -87,7 +72,8 @@ const ProfileScreen = () => {
 			<Col md={3}>
 				<h2>User profile</h2>
 				{loading && <Loading />}
-				{message && show && <Message variant={"info"}>{message}</Message>}
+				{error && <Message variant={"danger"}>{error}</Message>}
+				{message && <Message variant={"info"}>{message}</Message>}
 				<Form onSubmit={submitHandler}>
 					<Form.Group controlId="name">
 						<Form.Label>Name</Form.Label>
